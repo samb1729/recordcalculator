@@ -10,18 +10,20 @@ function time_pairs($gap) {
     $pairs = array();
     $lower_bound = 0;
 
-    foreach($updates as $update) {
-        $first = $update;
-        $last  = $updates[$lower_bound];
+    for($i = 0; $i < count($updates); $i++) {
+        $first_index = $i;
+        $first = $updates[$first_index];
+        $last_index  = $lower_bound;
 
         for($i = $lower_bound; $i < count($updates); $i++) {
             $u = $updates[$i];
             if ($u->time - $first->time > $gap)
                 break;
-            $last = $u;
+            $last_index = $i;
             $lower_bound = $i;
         }
 
+        $last = $updates[$last_index];
         $pairs[] = array($first, $last);
     }
 
