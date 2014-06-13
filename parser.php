@@ -46,6 +46,9 @@ function record($gap, $skill) {
     return $record;
 }
 
-echo count(time_pairs(86400)) . "\n";
-$month_record = record(86400 * 31, 0);
-echo "Month record xp: " . $month_record["xp"] . "\n";
+$times = array(1, 7, 31);
+
+foreach($times as $time) {
+    $record = record($time * 86400, 0);
+    echo $time . " day record xp: " . $record["xp"] . "\n";
+}
