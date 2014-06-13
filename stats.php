@@ -1,5 +1,6 @@
 <?php
 require_once('skills.php');
+require_once('ehp.php');
 
 class Stats {
 	public $xp;
