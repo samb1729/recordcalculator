@@ -22,7 +22,11 @@ function time_pairs($gap) {
             $lower_bound = $j;
         }
 
-        $last = $updates[$lower_bound];
+        $last_index = $lower_bound;
+        while($updates[$last_index]->xp == $updates[$last_index - 1]->xp)
+            $last_index--;
+
+        $last = $updates[$last_index];
         $pairs[] = array($first, $last);
     }
 
