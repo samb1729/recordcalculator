@@ -28,4 +28,24 @@ function time_pairs($gap) {
     return $pairs;
 }
 
+function record($gap, $skill) {
+    $pairs = time_pairs($gap);
+
+    $record_xp = 0;
+    $record_pair = null;
+
+    foreach($pairs as $pair) {
+        $xp_difference = $pair[1]->xp[$skill] - $pair[0]->xp[$skill];
+        if ($xp_difference > $record_xp) {
+            $record_pair = $pair;
+            $record_xp   = $xp_difference;
+        }
+    }
+
+    $record = array("xp" => $record_xp, "time" => $record_pair[1]->time);
+    return $record;
+}
+
 echo count(time_pairs(86400)) . "\n";
+$month_record = record(86400 * 31, 0);
+echo "Month record xp: " . $month_record["xp"] . "\n";
