@@ -28,9 +28,8 @@ function time_pairs($gap) {
     return $pairs;
 }
 
-function record($gap, $skill) {
-    $pairs = time_pairs($gap);
 
+function record($pairs, $skill) {
     $record_xp = 0;
     $record_pair = null;
 
@@ -49,6 +48,7 @@ function record($gap, $skill) {
 $times = array(1, 7, 31);
 
 foreach($times as $time) {
-    $record = record($time * 86400, 0);
+    $pairs = time_pairs($time * 86400);
+    $record = record($pairs, 0);
     echo $time . " day record xp: " . $record["xp"] . "\n";
 }
