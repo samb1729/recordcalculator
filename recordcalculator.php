@@ -66,21 +66,23 @@ function ehp_record($pairs) {
     return $record;
 }
 
-$times = array(1, 7, 31);
-$pairs_cached = array();
+for($n = 0; $n < 10; $n++) {
+    $times = array(1, 7, 31);
+    $pairs_cached = array();
 
-foreach($times as $time) {
-    $pairs_cached[$time] = time_pairs($time * 86400);
-}
-
-foreach($times as $time) {
-    $pairs = $pairs_cached[$time];
-
-    for($i = 0; $i < $SKILL_COUNT; $i++) {
-        $record = record($pairs, $i);
-        $skill  = skill_name($i);
-//        echo "$skill $time day record xp " .  $record["xp"] . "\n";
+    foreach($times as $time) {
+        $pairs_cached[$time] = time_pairs($time * 86400);
     }
-    $record = ehp_record($pairs);
+
+    foreach($times as $time) {
+        $pairs = $pairs_cached[$time];
+
+        for($i = 0; $i < $SKILL_COUNT; $i++) {
+            $record = record($pairs, $i);
+            $skill  = skill_name($i);
+//        echo "$skill $time day record xp " .  $record["xp"] . "\n";
+        }
+        $record = ehp_record($pairs);
 //    echo "EHP $time day record: " . $record["ehp"] . "\n";
+    }
 }
