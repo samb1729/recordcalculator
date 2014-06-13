@@ -70,7 +70,13 @@ def record(gap, updates)
 end
 
 Benchmark.bm do |b|
-  b.report("Run 50 times:") {
+  b.report("Generate pairs 50 times: ") {
+    50.times do
+      time_pairs(86400, updates)
+    end
+  }
+
+  b.report("Generate records 50 times:") {
     [86400, 86400 * 7, 86400 * 31].each do |time|
       50.times do record(time, updates).inspect end
     end
