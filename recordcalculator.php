@@ -46,6 +46,22 @@ function record($pairs, $skill) {
     return $record;
 }
 
+function ehp_record($pairs) {
+    $record_ehp = 0;
+    $record_pair = null;
+
+    foreach($pairs as $pair) {
+        $ehp_difference = $pair[1]->ehp - $pair[0]->ehp;
+        if ($ehp_difference > $record_ehp) {
+            $record_pair = $pair;
+            $record_ehp   = $ehp_difference;
+        }
+    }
+
+    $record = array("ehp" => $record_ehp, "time" => $record_pair[1]->time);
+    return $record;
+}
+
 $times = array(1, 7, 31);
 
 foreach($times as $time) {
@@ -54,6 +70,8 @@ foreach($times as $time) {
     for($i = 0; $i < $SKILL_COUNT; $i++) {
         $record = record($pairs, $i);
         $skill  = skill_name($i);
-        echo $skill . " " . $time . " day record xp: " . $record["xp"] . "\n";
+        echo "$skill $time day record xp " .  $record["xp"] . "\n";
     }
+    $record = ehp_record($pairs);
+    echo "EHP $time day record: " . $record["ehp"] . "\n";
 }
