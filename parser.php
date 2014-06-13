@@ -2,7 +2,7 @@
 include("stats.php");
 
 
-$serialized = trim(file_get_contents("raw_stats"));
+$serialized = trim(file_get_contents("foot"));
 $updates = unserialize($serialized);
 
 function time_pairs($gap) {
