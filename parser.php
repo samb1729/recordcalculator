@@ -49,6 +49,10 @@ $times = array(1, 7, 31);
 
 foreach($times as $time) {
     $pairs = time_pairs($time * 86400);
-    $record = record($pairs, 0);
-    echo $time . " day record xp: " . $record["xp"] . "\n";
+
+    for($i = 0; $i < $SKILL_COUNT; $i++) {
+        $record = record($pairs, $i);
+        $skill  = skill_name($i);
+        echo $skill . " " . $time . " day record xp: " . $record["xp"] . "\n";
+    }
 }
