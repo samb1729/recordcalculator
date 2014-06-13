@@ -19,6 +19,7 @@ function time_pairs($gap) {
             if ($u->time - $first->time > $gap)
                 break;
             $last = $u;
+            $lower_bound = $i;
         }
 
         $pairs[] = array($first, $last);
