@@ -40,6 +40,8 @@ end
 # Convert hash to array of updates
 updates = updates.to_a.map(&:last)
 
+# CODE TO ACTUALLY FIND RECORDS STARTS HERE
+
 def time_pairs(gap, updates)
   updates.inject([]) { |out, u|
     first = u
