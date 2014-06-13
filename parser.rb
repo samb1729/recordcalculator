@@ -20,14 +20,14 @@ end
 
 def parse(update)
   xp_lines = (0..24).inject([]) do |arr, n|
-    arr << update[7 + 2 * n].strip[4..-1].to_i
+    arr << update[7 + 2 * n].strip[4..-2].to_i
   end
 
   rank_lines = (0..24).inject([]) do |arr, n|
-    arr << update[58 + 2 * n].strip[4..-1].to_i
+    arr << update[58 + 2 * n].strip[4..-2].to_i
   end
 
-  time = update[107].match(/\"\d+\"/)[0][1..-1].to_i
+  time = update[107].match(/\"\d+\"/)[0][1..-2].to_i
 
   { xp: xp_lines, rank: rank_lines, time: Time.at(time) }
 end
