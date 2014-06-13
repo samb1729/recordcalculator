@@ -13,7 +13,7 @@ updates = Hash.new do |h, k|
   last_line_number  = first_line_number + update_length - 1
 
   update = lines[first_line_number..last_line_number]
-  update = parse(update)
+  update = parse(update).merge({ number: k })
 
   h[k] = update
 end
@@ -39,13 +39,18 @@ end
 updates = updates.to_a.map(&:last)
 
 def time_pairs(gap, updates)
-  updates.map { |u|
+  updates.inject([]) { |out, u|
     first = u
-    last  = updates.find_all { |u|
-      u[:time] - first[:time] < gap
+    # The endpoint for the pair can't possibly be before the endpoint
+    # of the preceding pair, so we use either that or the first update
+    # as the starting point for the search
+    lower_bound = (out.last || [updates.first]).last[:number]
+
+    last = updates[lower_bound..-1].take_while { |u|
+      u[:time] - first[:time] <= gap
     }.last
 
-    [first, last]
+    out << [first, last]
   }
 end
 
