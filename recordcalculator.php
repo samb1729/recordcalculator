@@ -63,9 +63,14 @@ function ehp_record($pairs) {
 }
 
 $times = array(1, 7, 31);
+$pairs_cached = array();
 
 foreach($times as $time) {
-    $pairs = time_pairs($time * 86400);
+    $pairs_cached[$time] = time_pairs($time * 86400);
+}
+
+foreach($times as $time) {
+    $pairs = $pairs_cached[$time];
 
     for($i = 0; $i < $SKILL_COUNT; $i++) {
         $record = record($pairs, $i);
