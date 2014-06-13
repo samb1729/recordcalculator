@@ -26,8 +26,18 @@ $RATES = Array(
 	Array(0,20000,18247,100000,101333,230000,1096278,350000)
 );
 
+$RATES_COUNT  = count($RATES);
+$RATES_COUNTS = array();
+
+for($i = 0; $i < $RATES_COUNT; $i++) {
+    if ($RATES[$i] == null)
+        $RATES_COUNTS[] = 1;
+    else
+        $RATES_COUNTS[] = count($RATES[$i]);
+}
+
 function calc_time($xp, $target_xp=200000000) {
-	global $RATES;
+	global $RATES, $RATES_COUNTS;
 	$time_left = 0.0;
 	if($xp[11]<$target_xp) {
 		$xp[17] += ($target_xp-max(83014,$xp[11]))/11; //Agil from fish
@@ -35,25 +45,25 @@ function calc_time($xp, $target_xp=200000000) {
 	if($xp[14]<$target_xp) {
 		$xp[7] += ($target_xp-$xp[14])*53/56.2;
 	}
-	
+
 	if($xp[19]<$target_xp) {
 		$xp[5] += ($target_xp-$xp[19])*0.6;
 	}
-	
+
 	for($i = 5;$i<24;$i++) {
 		if($xp[$i] < $target_xp) {
-			for($n = 0; $n<count($RATES[$i]); $n+=2) {
+			for($n = 0; $n<$RATES_COUNTS[$i]; $n+=2) {
 				if($xp[$i] >= $RATES[$i][$n]) {
-					$target = min((count($RATES[$i])-2==$n) ? $target_xp : $RATES[$i][$n+2], $target_xp);
+					$target = min(($RATES_COUNTS[$i]-2==$n) ? $target_xp : $RATES[$i][$n+2], $target_xp);
 					$rate = $RATES[$i][$n+1];
-					if($target > $xp[$i]) {		
+					if($target > $xp[$i]) {
 						$time_left += ($target-$xp[$i])/$rate;
 						$xp[$i] = $target;
 					}
 				}
-			}	
+			}
 		}
-	}	
+	}
 	return $time_left;
 }
 
