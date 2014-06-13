@@ -1,3 +1,5 @@
+require 'benchmark'
+
 f = open("stats")
 lines = f.read.lines.map(&:chomp)
 f.close
@@ -63,6 +65,14 @@ def record(gap, updates)
   }
 
   pairs.last
+end
+
+Benchmark.bm do |b|
+  b.report("run 50 times:") {
+    [86400, 86400 * 7, 86400 * 31].each do |time|
+      50.times do record(time, updates).inspect end
+    end
+  }
 end
 
 [86400, 86400 * 7, 86400 * 31].each do |time|
