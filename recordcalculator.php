@@ -79,8 +79,8 @@ foreach($times as $time) {
     for($i = 0; $i < $SKILL_COUNT; $i++) {
         $record = record($pairs, $i);
         $skill  = skill_name($i);
-        echo "$skill $time day record xp " .  $record["xp"] . "\n";
+//        echo "$skill $time day record xp " .  $record["xp"] . "\n";
     }
     $record = ehp_record($pairs);
-    echo "EHP $time day record: " . $record["ehp"] . "\n";
+//    echo "EHP $time day record: " . $record["ehp"] . "\n";
 }
