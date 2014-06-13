@@ -15,12 +15,12 @@ function time_pairs($gap) {
         $first = $updates[$first_index];
         $last_index  = $lower_bound;
 
-        for($i = $lower_bound; $i < count($updates); $i++) {
-            $u = $updates[$i];
+        for($j = $lower_bound; $j < count($updates); $j++) {
+            $u = $updates[$j];
             if ($u->time - $first->time > $gap)
                 break;
-            $last_index = $i;
-            $lower_bound = $i;
+            $last_index = $j;
+            $lower_bound = $j;
         }
 
         $last = $updates[$last_index];
