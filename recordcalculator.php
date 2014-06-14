@@ -35,7 +35,7 @@ function time_triples($gap) {
 function record($triples, $skill) {
     global $updates;
     $record_xp = 0;
-    $record_triple = null;
+    $record_triple = $triples[0];
 
     foreach($triples as $triple) {
         $xp_difference = $triple[1]->xp[$skill] - $triple[0]->xp[$skill];
@@ -61,7 +61,7 @@ function record($triples, $skill) {
 function ehp_record($triples) {
     global $updates;
     $record_ehp = 0;
-    $record_triple = null;
+    $record_triple = $triples[0];
 
     foreach($triples as $triple) {
         $ehp_difference = $triple[1]->ehp - $triple[0]->ehp;
