@@ -23,11 +23,9 @@ function time_pairs($gap) {
         }
 
         $last_index = $lower_bound;
-        while($updates[$last_index]->xp == $updates[$last_index - 1]->xp)
-            $last_index--;
 
         $last = $updates[$last_index];
-        $pairs[] = array($first, $last);
+        $pairs[] = array($first, $last, $last_index);
     }
 
     return $pairs;
@@ -35,6 +33,7 @@ function time_pairs($gap) {
 
 
 function record($pairs, $skill) {
+    global $updates;
     $record_xp = 0;
     $record_pair = null;
 
@@ -46,7 +45,13 @@ function record($pairs, $skill) {
         }
     }
 
-    $record = array("xp" => $record_xp, "time" => $record_pair[1]->time);
+    $timespan_end = $record_pair[2];
+    $actual_end   = $record_pair[2];
+
+    while($updates[$actual_end - 1]->xp[$skill] == $updates[$timespan_end]->xp[$skill])
+        $actual_end--;
+
+    $record = array("xp" => $record_xp, "time" => $updates[$actual_end]->time);
     return $record;
 }
 
