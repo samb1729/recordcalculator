@@ -5,9 +5,9 @@ include("stats.php");
 $serialized = trim(file_get_contents("foot"));
 $updates = unserialize($serialized);
 
-function time_pairs($gap) {
+function time_triples($gap) {
     global $updates;
-    $pairs = array();
+    $triples = array();
     $lower_bound = 0;
     $update_count = count($updates);
 
@@ -25,28 +25,28 @@ function time_pairs($gap) {
         $last_index = $lower_bound;
 
         $last = $updates[$last_index];
-        $pairs[] = array($first, $last, $last_index);
+        $triples[] = array($first, $last, $last_index);
     }
 
-    return $pairs;
+    return $triples;
 }
 
 
-function record($pairs, $skill) {
+function record($triples, $skill) {
     global $updates;
     $record_xp = 0;
-    $record_pair = null;
+    $record_triple = null;
 
-    foreach($pairs as $pair) {
-        $xp_difference = $pair[1]->xp[$skill] - $pair[0]->xp[$skill];
+    foreach($triples as $triple) {
+        $xp_difference = $triple[1]->xp[$skill] - $triple[0]->xp[$skill];
         if ($xp_difference > $record_xp) {
-            $record_pair = $pair;
+            $record_triple = $triple;
             $record_xp   = $xp_difference;
         }
     }
 
-    $timespan_end = $record_pair[2];
-    $actual_end   = $record_pair[2];
+    $timespan_end = $record_triple[2];
+    $actual_end   = $record_triple[2];
 
     while($updates[$actual_end - 1]->xp[$skill] == $updates[$timespan_end]->xp[$skill])
         $actual_end--;
@@ -55,39 +55,39 @@ function record($pairs, $skill) {
     return $record;
 }
 
-function ehp_record($pairs) {
+function ehp_record($triples) {
     $record_ehp = 0;
-    $record_pair = null;
+    $record_triple = null;
 
-    foreach($pairs as $pair) {
-        $ehp_difference = $pair[1]->ehp - $pair[0]->ehp;
+    foreach($triples as $triple) {
+        $ehp_difference = $triple[1]->ehp - $triple[0]->ehp;
         if ($ehp_difference > $record_ehp) {
-            $record_pair = $pair;
+            $record_triple = $triple;
             $record_ehp   = $ehp_difference;
         }
     }
 
-    $record = array("ehp" => $record_ehp, "time" => $record_pair[1]->time);
+    $record = array("ehp" => $record_ehp, "time" => $record_triple[1]->time);
     return $record;
 }
 
 for($n = 0; $n < 10; $n++) {
     $times = array(1, 7, 31);
-    $pairs_cached = array();
+    $triples_cached = array();
 
     foreach($times as $time) {
-        $pairs_cached[$time] = time_pairs($time * 86400);
+        $triples_cached[$time] = time_triples($time * 86400);
     }
 
     foreach($times as $time) {
-        $pairs = $pairs_cached[$time];
+        $triples = $triples_cached[$time];
 
         for($i = 0; $i < $SKILL_COUNT; $i++) {
-            $record = record($pairs, $i);
+            $record = record($triples, $i);
             $skill  = skill_name($i);
 //        echo "$skill $time day record xp " .  $record["xp"] . "\n";
         }
-        $record = ehp_record($pairs);
+        $record = ehp_record($triples);
 //    echo "EHP $time day record: " . $record["ehp"] . "\n";
     }
 }
