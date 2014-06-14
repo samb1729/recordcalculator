@@ -48,8 +48,11 @@ function record($triples, $skill) {
     $timespan_end = $record_triple[2];
     $actual_end   = $record_triple[2];
 
-    while($updates[$actual_end - 1]->xp[$skill] == $updates[$timespan_end]->xp[$skill])
+    while($updates[$actual_end - 1]->xp[$skill] == $updates[$timespan_end]->xp[$skill]) {
         $actual_end--;
+        if ($actual_end == 0)
+            break;
+    }
 
     $record = array("xp" => $record_xp, "time" => $updates[$actual_end]->time);
     return $record;
@@ -70,8 +73,11 @@ function ehp_record($triples) {
 
     $timespan_end = $record_triple[2];
     $actual_end   = $record_triple[2];
-    while($updates[$actual_end - 1]->ehp == $updates[$timespan_end]->ehp)
+    while($updates[$actual_end - 1]->ehp == $updates[$timespan_end]->ehp) {
         $actual_end--;
+        if ($actual_end == 0)
+            break;
+    }
 
     $record = array("ehp" => $record_ehp, "time" => $record_triple[1]->time);
     return $record;
