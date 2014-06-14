@@ -56,6 +56,7 @@ function record($triples, $skill) {
 }
 
 function ehp_record($triples) {
+    global $updates;
     $record_ehp = 0;
     $record_triple = null;
 
@@ -66,6 +67,11 @@ function ehp_record($triples) {
             $record_ehp   = $ehp_difference;
         }
     }
+
+    $timespan_end = $record_triple[2];
+    $actual_end   = $record_triple[2];
+    while($updates[$actual_end - 1]->ehp == $updates[$timespan_end]->ehp)
+        $actual_end--;
 
     $record = array("ehp" => $record_ehp, "time" => $record_triple[1]->time);
     return $record;
